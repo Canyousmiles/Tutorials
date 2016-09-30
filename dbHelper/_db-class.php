@@ -59,12 +59,27 @@ class _Database {
         try {
             $DB = $this->_connectDB();
             $RESULT = $DB->query($strQuery);
-            if ($RESULT) {
-                echo "UPDATE DATA SUCESSFULLY!";
+            if ($RESULT == true) {
+                echo "แก้ไขข้อมูลเรียบร้อย!";
             } else {
                 echo $strQuery;
             }
         } catch (PDOException $ex) {
+            $this->MSG_ERROR = $ex->getMessage();
+        }
+    }
+
+    public function _delete($TABLE) {
+        $strQuery = "DELETE FROM $TABLE";
+        try {
+            $DB = $this->_connectDB();
+            $RESULT = $DB->query($strQuery);
+            if ($RESULT == true) {
+                echo "ลบข้อมูลเรียบร้อย!";
+            } else {
+                echo $strQuery;
+            }
+        } catch (Exception $ex) {
             $this->MSG_ERROR = $ex->getMessage();
         }
     }

@@ -76,10 +76,11 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 var actionType = "";
-                var tableName = "project_user";
+                var tableName = "";
                 var fieldName = "";
                 function FetchData() {
                     actionType = "fetch";
+                    tableName = "project_user";
                     fieldName = "*";
                     $.ajax({
                         url: "dbHelper/_db-action.php",
@@ -124,6 +125,7 @@
                 $('#btn-add').on('click', function () {
                     $('#content-table').addClass('hide');
                     $('#content-form').removeClass('hide');
+                    $('#txt_user_id').removeAttr('readonly').focus();
                     actionType = "insert";
                 });
                 $('.content-data-loader').on('click', '#btn-edit', function () {
@@ -145,11 +147,27 @@
                         success: function (data) {
                             var _data = $.parseJSON(data);
                             $.each(_data, function (_key, _value) {
-                                $('#txt_user_id').val(_value['user_id']);
-                                $('#txt_username').val(_value['username']);
+                                $('#txt_user_id').val(_value['user_id']).attr('readonly', 'true');
+                                $('#txt_username').val(_value['username']).focus();
                                 $('#txt_password').val(_value['password']);
                                 $('#txt_permission').val(_value['permission']);
                             });
+                        }
+                    });
+                });
+                $('.content-data-loader').on('click', '#btn-delete', function () {
+                    tableName = "project_user WHERE user_id='" + $(this).attr('user_id') + "' ";
+                    actionType = "delete";
+                    $.ajax({
+                        url: "dbHelper/_db-action.php",
+                        type: "POST",
+                        data: {
+                            action_type: actionType,
+                            tb_name: tableName,
+                            field_name: ""
+                        },
+                        success: function (data) {
+                            FetchData();
                         }
                     });
                 });
@@ -175,6 +193,7 @@
                     });
                 });
                 $('#btn-cancel').on('click', function () {
+                    ClearValues();
                     $('#content-table').removeClass('hide');
                     $('#content-form').addClass('hide');
                 });

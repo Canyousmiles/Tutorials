@@ -22,4 +22,7 @@ if (isset($_POST['action_type']) && isset($_POST['tb_name']) && isset($_POST['fi
         $valueData = "SET username ='" . $arrData['txt_username'] . "',password ='" . $arrData['txt_password'] . "',permission ='" . $arrData['txt_permission'] . "' WHERE user_id ='" . $arrData['txt_user_id'] . "'";
         $arrData = $DB->_update($tableName, $valueData);
     }
+    if ($actionType == "delete"){
+        $DB->_delete($tableName);
+    }
 }
