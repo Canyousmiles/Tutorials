@@ -6,48 +6,66 @@ class _Database {
     private $DB_USER;
     private $DB_PASS;
     private $DB_NAME;
-    private $MSG_ERR;
-    private $TABLE;
-    private $FIELD;
+    private $MSG_ERROR;
 
-    public function __construct($_HOST, $_DBNAME, $_USER, $_PASS) {
-        $this->DB_HOST = $_HOST;
-        $this->DB_NAME = $_DBNAME;
-        $this->DB_USER = $_USER;
-        $this->DB_PASS = $_PASS;
+    public function __construct($HOST, $USER, $PASS, $DBNAME) {
+        $this->DB_HOST = $HOST;
+        $this->DB_USER = $USER;
+        $this->DB_PASS = $PASS;
+        $this->DB_NAME = $DBNAME;
     }
 
-    public function _ConnectDB() {
+    protected function _connectDB() {
         try {
-            $DB = new PDO("pgsql:host={$this->DB_HOST};dbname={$this->DB_NAME};", $this->DB_USER, $this->DB_PASS);
+            $DB = new PDO("mysql:host={$this->DB_HOST};dbname={$this->DB_NAME}", $this->DB_USER, $this->DB_PASS);
             return $DB;
         } catch (PDOException $ex) {
-            $this->MSG_ERR = $ex->getMessage();
-            return false;
+            $this->MSG_ERROR = $ex->getMessage();
         }
     }
 
-    public function _dataView($query) {
+    public function _getView($TABLE, $FIELD) {
+        $strQuery = "SELECT $FIELD FROM $TABLE";
         try {
-            $DB = $this->_ConnectDB();
-            $stmt = $DB->prepare($query);
-            $stmt->execute();
-            if ($stmt->rowCount() > 0) {
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    ?>
-                    <tr>
-                        <td><?php print($row['user_id']); ?></td>
-                        <td><?php print($row['username']); ?></td>
-                        <td><?php print($row['password']); ?></td>
-                        <td><?php print($row['permission_id']); ?></td>
-                        <td><?php print($row['create_date']); ?></td>
-                        <td><?php print($row['modify_date']); ?></td>
-                    </tr>
-                    <?php
-                }
+            $DB = $this->_connectDB();
+            $RESULT = $DB->query($strQuery);
+            if ($RESULT == true) {
+                return $RESULT->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                echo $this->MSG_ERROR;
             }
         } catch (PDOException $ex) {
-            echo $ex->getMessage();
+            $this->MSG_ERROR = $ex->getMessage();
+        }
+    }
+
+    public function _insert($TABLE, $FIELD, $VALUE) {
+        $strQuery = "INSERT INTO $TABLE ($FIELD) VALUES ($VALUE)";
+        try {
+            $DB = $this->_connectDB();
+            $RESULT = $DB->query($strQuery);
+            if ($RESULT == true) {
+                echo "เพิ่มข้อมูลเรียบร้อย!";
+            } else {
+                echo $strQuery;
+            }
+        } catch (PDOException $ex) {
+            $this->MSG_ERROR = $ex->getMessage();
+        }
+    }
+
+    public function _update($TABLE, $VALUE) {
+        $strQuery = "UPDATE $TABLE $VALUE";
+        try {
+            $DB = $this->_connectDB();
+            $RESULT = $DB->query($strQuery);
+            if ($RESULT) {
+                echo "UPDATE DATA SUCESSFULLY!";
+            } else {
+                echo $strQuery;
+            }
+        } catch (PDOException $ex) {
+            $this->MSG_ERROR = $ex->getMessage();
         }
     }
 
