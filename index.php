@@ -1,203 +1,309 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Tutorials</title>
-        <link rel="stylesheet" href="assets/css/bootstrap.css"/>
+        <?php include './_header.php'; ?>
     </head>
     <body>
-        <div class="panel panel-default"  id="content-form">
-            <div class="panel-heading">
-                <center><strong>ฟอร์มกรอกข้อมูล</strong></center>
-            </div>
-            <div class="panel-body">
-                <form id="user-form">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">USER ID</label>
-                                <input type="text" class="form-control" placeholder="ใส่ข้อมูล" name="txt_user_id" id="txt_user_id">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">USERNAME</label>
-                                <input type="text" class="form-control" placeholder="ใส่ข้อมูล" name="txt_username" id="txt_username">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">PASSWORD</label>
-                                <input type="password" class="form-control" placeholder="ใส่ข้อมูล" name="txt_password" id="txt_password">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">PERMISSION ID</label>
-                                <input type="text" class="form-control" placeholder="ใส่ข้อมูล" name="txt_permission" id="txt_permission">
-                            </div>
-                        </div>
+        <div class="modal fade" id="modal-result">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="modal-result-title">ข้อความระบบ</h4>
                     </div>
-                </form>
-            </div>
-            <div class="panel-footer text-right">
-                <button class="btn btn-primary" id="btn-save">บันทึก</button>
-                <button class="btn btn-default" id="btn-cancel">กลับ</button>
-            </div>
-        </div>
-        <div class="panel panel-default" id="content-table">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-md-1"><button class="btn btn-default" id="btn-add">เพิ่มข้อมูล</button></div>
-                    <div class="col-md-11"><h5 class="text-center"><strong>USER TABLE</strong></h5></div>
+                    <div class="modal-body" id="modal-result-body"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">ตกลง</button>
+                    </div>
                 </div>
             </div>
-            <table class="table table-hover text-center">
-                <thead>
-                    <tr>
-                        <td><strong>No.</strong></td>
-                        <td><strong>USER ID</strong></td>
-                        <td><strong>USERNAME</strong></td>
-                        <td><strong>PASSWORD</strong></td>
-                        <td><strong>PERMISSION</strong></td>
-                        <td><strong>CREATE DATE</strong></td>
-                        <td><strong>MODIFY DATE</strong></td>
-                        <td><strong>EDIT</strong></td>
-                        <td><strong>DELETE</strong></td>
-                    </tr>
-                </thead>
-                <tbody class="content-data-loader"></tbody>
-            </table>
         </div>
-        <script type="text/javascript" src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default hide" id="content-form">
+                        <div class="panel-heading">
+                            <h5 class="text-center"><strong>EMPLOYEE FORM</strong></h5>
+                        </div>
+                        <div class="panel-body">
+                            <form id="employee-form">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>EMPLOYEE ID</label>
+                                            <input type="text" name="txt-emp-id" id="txt-emp-id" value="" placeholder="กรุณาใส่ข้อมูล" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>TITLE NAME</label>
+                                            <input type="text" name="txt-title-name" id="txt-title-name" value="" placeholder="กรุณาใส่ข้อมูล" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>FIRST NAME</label>
+                                            <input type="text" name="txt-first-name" id="txt-first-name" value="" placeholder="กรุณาใส่ข้อมูล" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>LAST NAME</label>
+                                            <input type="text" name="txt-last-name" id="txt-last-name" value="" placeholder="กรุณาใส่ข้อมูล" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>POSITION</label>
+                                            <select class="form-control" name="cmb-position" id="cmb-position">
+                                                <option value="">SELECT</option>
+                                                <option value="POS 1">POS 1</option>
+                                                <option value="POS 2">POS 2</option>
+                                                <option value="POS 3">POS 3</option>
+                                                <option value="POS 4">POS 4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer text-right">
+                            <button type="button" name="btn-save" id="btn-save" class="btn btn-primary btn-sm">บันทึกข้อมูล</button>
+                            <button type="button" name="btn-cancel" id="btn-cancel" class="btn btn-default btn-sm">ยกเลิก</button>
+                        </div>
+                    </div>
+                    <div class="panel panel-default hide" id="content-table">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-md-2"><button type="button" id="btn-add" class="btn btn-default"><strong>ADD</strong></button></div>
+                                <div class="col-md-8 text-center"><h5><strong>EMPLOYEE TABLE</strong></h5></div>
+                                <div class="col-md-2 text-right">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <button type="button" id="btn-find" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                                        </span>
+                                        <input type="text" name="txt-find" id="txt-find" value="" class="form-control" placeholder="FIND DATA">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table text-center">
+                            <thead>
+                                <tr>
+                                    <td><strong>#</strong></td>
+                                    <td><strong>EMPLOYEE ID</strong></td>
+                                    <td><strong>FULL NAME</strong></td>
+                                    <td><strong>POSITION</strong></td>
+                                    <td><strong>CREATE DATE</strong></td>
+                                    <td><strong>MODIFY DATE</strong></td>
+                                    <td><strong>EDIT</strong></td>
+                                    <td><strong>DELETE</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody id="content-table-result"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <footer>
+        <?php include './_footer.php'; ?>
         <script type="text/javascript">
             $(document).ready(function () {
-                var actionType = "";
-                var tableName = "";
-                var fieldName = "";
-                function FetchData() {
-                    actionType = "fetch";
-                    tableName = "project_user";
-                    fieldName = "*";
+                var ACTION = "";
+                var FIELD = "";
+                var TABLE = "";
+                var VALUE = "";
+                var _DATA = "";
+                var _OUTPUT = "";
+
+                function _FETCH() {
+                    ACTION = "FETCH";
+                    FIELD = "*";
+                    TABLE = "test_employee";
                     $.ajax({
-                        url: "dbHelper/_db-action.php",
+                        url: "db-helper/db-action.php",
                         type: "POST",
                         data: {
-                            action_type: actionType,
-                            tb_name: tableName,
-                            field_name: fieldName
+                            action_name: ACTION,
+                            field_name: FIELD,
+                            table_name: TABLE
                         },
                         success: function (data) {
-                            var _data = $.parseJSON(data);
-                            var _output = "";
-                            $.each(_data, function (_key, _value) {
-                                _output += "<tr>";
-                                _output += "<td><span>" + (_key + 1) + "<span></td>";
-                                _output += "<td><span>" + (_value['user_id']) + "</span></td>";
-                                _output += "<td><span>" + (_value['username']) + "</span></td>";
-                                _output += "<td><span>" + (_value['password']) + "</span></td>";
-                                _output += "<td><span>" + (_value['permission']) + "</span></td>";
-                                _output += "<td><span>" + (_value['create_date']) + "</span></td>";
-                                _output += "<td><span>" + (_value['modify_date']) + "</span></td>";
-                                _output += "<td><a href='#'user_id='" + (_value['user_id']) + "' id='btn-edit'><span class='glyphicon glyphicon-pencil'></span></a></td>";
-                                _output += "<td><a href='#'user_id='" + (_value['user_id']) + "' id='btn-delete'><span class='glyphicon glyphicon-trash'></span></a></td>";
-                                _output += "</tr>";
-                            });
-                            $('.content-data-loader').html(_output);
-                            $('#content-table').removeClass('hide');
+                            if (data != "[]") {
+                                _DATA = $.parseJSON(data);
+                                _OUTPUT = "";
+                                $.each(_DATA, function (_key, _val) {
+                                    _OUTPUT += "<tr>";
+                                    _OUTPUT += "<td><h5><span>" + (_key + 1) + "</span></h5></td>";
+                                    _OUTPUT += "<td><h5><span>" + (_val['emp_id']) + "</span></h5></td>";
+                                    _OUTPUT += "<td><h5><span>" + (_val['title_name']) + " " + (_val['first_name']) + " " + (_val['last_name']) + "</span></h5></td>";
+                                    _OUTPUT += "<td><h5><span>" + (_val['position']) + "</span></h5></td>";
+                                    _OUTPUT += "<td><h5><span>" + (_val['create_date']) + "</span></h5></td>";
+                                    _OUTPUT += "<td><h5><span>" + (_val['modify_date']) + "</span></h5></td>";
+                                    _OUTPUT += "<td><a href='#' key_id='" + (_val['emp_id']) + "' id='link-edit'><button type='button' class='btn btn-warning btn-sm'><span class='glyphicon glyphicon-pencil'></span></button></a></td>";
+                                    _OUTPUT += "<td><a href='#' key_id='" + (_val['emp_id']) + "' id='link-delete'><button type='button' class='btn btn-danger btn-sm'><span class='glyphicon glyphicon-trash'></span></button></a></td>";
+                                    _OUTPUT += "</tr>";
+                                });
+                            } else {
+                                _OUTPUT = "<tr><td colspan=8><span>ไม่พบข้อมูล</span></td></tr>";
+                            }
+                        },
+                        complete: function () {
+                            $("#content-table-result").html(_OUTPUT);
+                            $("#content-table").removeClass("hide");
                         }
                     });
                 }
-                function ClearValues() {
-                    $('#txt_user_id').val("");
-                    $('#txt_username').val("");
-                    $('#txt_password').val("");
-                    $('#txt_permission').val("");
+                function _CLEAR() {
+                    $("#txt-emp-id").val("");
+                    $("#txt-title-name").val("");
+                    $("#txt-first-name").val("");
+                    $("#txt-last-name").val("");
+                    $("#cmb-position").val("");
                 }
-                FetchData();
-                $('#content-form').addClass('hide');
-                $('#content-table').addClass('hide');
-
-
-                $('#btn-add').on('click', function () {
-                    $('#content-table').addClass('hide');
-                    $('#content-form').removeClass('hide');
-                    $('#txt_user_id').removeAttr('readonly').focus();
-                    actionType = "insert";
-                });
-                $('.content-data-loader').on('click', '#btn-edit', function () {
-                    fieldName = "*";
-                    tableName = "project_user WHERE user_id='" + $(this).attr('user_id') + "' ";
-                    actionType = "update";
-                    console.log(tableName);
+                _FETCH();
+                $("#btn-find").on("click", function () {
+                    ACTION = "FETCH";
+                    FIELD = "*";
+                    TABLE = "test_employee WHERE emp_id LIKE '%" + $("#txt-find").val() + "%'";
                     $.ajax({
-                        url: "dbHelper/_db-action.php",
+                        url: "db-helper/db-action.php",
                         type: "POST",
                         data: {
-                            action_type: "fetch",
-                            tb_name: tableName,
-                            field_name: fieldName
-                        }, beforeSend: function () {
-                            $('#content-form').removeClass('hide');
-                            $('#content-table').addClass('hide');
+                            action_name: ACTION,
+                            field_name: FIELD,
+                            table_name: TABLE
                         },
                         success: function (data) {
-                            var _data = $.parseJSON(data);
-                            $.each(_data, function (_key, _value) {
-                                $('#txt_user_id').val(_value['user_id']).attr('readonly', 'true');
-                                $('#txt_username').val(_value['username']).focus();
-                                $('#txt_password').val(_value['password']);
-                                $('#txt_permission').val(_value['permission']);
+                            if (data != "[]") {
+                                _DATA = $.parseJSON(data);
+                                _OUTPUT = "";
+                                $.each(_DATA, function (_key, _val) {
+                                    _OUTPUT += "<tr>";
+                                    _OUTPUT += "<td><h5><span>" + (_key + 1) + "</span></h5></td>";
+                                    _OUTPUT += "<td><h5><span>" + (_val['emp_id']) + "</span></h5></td>";
+                                    _OUTPUT += "<td><h5><span>" + (_val['title_name']) + " " + (_val['first_name']) + " " + (_val['last_name']) + "</span></h5></td>";
+                                    _OUTPUT += "<td><h5><span>" + (_val['position']) + "</span></h5></td>";
+                                    _OUTPUT += "<td><h5><span>" + (_val['create_date']) + "</span></h5></td>";
+                                    _OUTPUT += "<td><h5><span>" + (_val['modify_date']) + "</span></h5></td>";
+                                    _OUTPUT += "<td><a href='#' key_id='" + (_val['emp_id']) + "' id='link-edit'><button type='button' class='btn btn-warning btn-sm'><span class='glyphicon glyphicon-pencil'></span></button></a></td>";
+                                    _OUTPUT += "<td><a href='#' key_id='" + (_val['emp_id']) + "' id='link-delete'><button type='button' class='btn btn-danger btn-sm'><span class='glyphicon glyphicon-trash'></span></button></a></td>";
+                                    _OUTPUT += "</tr>";
+                                });
+                            } else {
+                                _OUTPUT = "<tr><td colspan=8><span style='color: red'>ไม่พบข้อมูลที่คุณค้นหา</span></td></tr>";
+                            }
+                        },
+                        complete: function () {
+                            $("#content-table-result").html(_OUTPUT);
+                        }
+                    });
+                });
+                $("#btn-add").on("click", function () {
+                    ACTION = "INSERT";
+                    FIELD = "emp_id";
+                    TABLE = "test_employee";
+                    $.ajax({
+                        url: "db-helper/db-action.php",
+                        type: "POST",
+                        data: {
+                            action_name: "ADD",
+                            field_name: FIELD,
+                            table_name: TABLE,
+                            key_name: "EMP"
+                        },
+                        success: function (data) {
+                            $("#txt-emp-id").attr("readonly", "true").val(data);
+                        },
+                        complete: function () {
+                            $("#content-form").removeClass("hide");
+                            $("#content-table").addClass("hide");
+                            $("#txt-title-name").focus();
+                        }
+                    });
+                });
+                $("#btn-cancel").on("click", function () {
+                    _CLEAR();
+                    $("#content-table").removeClass("hide");
+                    $("#content-form").addClass("hide");
+                });
+                $("#btn-save").on("click", function () {
+                    FIELD = "emp_id, title_name, first_name, last_name, position, create_date, modify_date";
+                    TABLE = "test_employee";
+                    VALUE = $("#employee-form").serialize();
+                    $.ajax({
+                        url: "db-helper/db-action.php",
+                        type: "POST",
+                        data: {
+                            action_name: ACTION,
+                            field_name: FIELD,
+                            table_name: TABLE,
+                            form_data: VALUE
+                        },
+                        success: function (data) {
+                            $("#modal-result-body").html("<p>" + data + "</p>");
+                        },
+                        complete: function () {
+                            $("#content-form").addClass("hide");
+                            $("#modal-result").modal("toggle");
+                            _FETCH();
+                            _CLEAR();
+                        }
+                    });
+                });
+                $("#content-table-result").on("click", "#link-edit", function () {
+                    ACTION = "UPDATE";
+                    FIELD = "*";
+                    TABLE = "test_employee WHERE emp_id='" + $(this).attr("key_id") + "'";
+                    $.ajax({
+                        url: "db-helper/db-action.php",
+                        type: "POST",
+                        data: {
+                            action_name: "FETCH",
+                            field_name: FIELD,
+                            table_name: TABLE
+                        },
+                        success: function (data) {
+                            _DATA = $.parseJSON(data);
+                            $.each(_DATA, function (_key, _val) {
+                                $("#txt-emp-id").attr("readonly", "true").val(_val['emp_id']);
+                                $("#txt-title-name").val(_val['title_name']);
+                                $("#txt-first-name").val(_val['first_name']);
+                                $("#txt-last-name").val(_val['last_name']);
+                                $("#cmb-position").val(_val['position']);
                             });
+                        },
+                        complete: function () {
+                            $("#content-form").removeClass("hide");
+                            $("#content-table").addClass("hide");
+                            $("#txt-title-name").focus();
                         }
                     });
                 });
-                $('.content-data-loader').on('click', '#btn-delete', function () {
-                    tableName = "project_user WHERE user_id='" + $(this).attr('user_id') + "' ";
-                    actionType = "delete";
+                $("#content-table-result").on("click", "#link-delete", function () {
+                    ACTION = "DELETE";
+                    TABLE = "test_employee WHERE emp_id='" + $(this).attr("key_id") + "'";
                     $.ajax({
-                        url: "dbHelper/_db-action.php",
+                        url: "db-helper/db-action.php",
                         type: "POST",
                         data: {
-                            action_type: actionType,
-                            tb_name: tableName,
-                            field_name: ""
+                            action_name: ACTION,
+                            field_name: "",
+                            table_name: TABLE
                         },
                         success: function (data) {
-                            FetchData();
-                        }
-                    });
-                });
-                $('#btn-save').on('click', function () {
-                    var tableName = "project_user";
-                    var filedName = "user_id, username, password, permission, create_date, modify_date";
-                    $.ajax({
-                        url: "dbHelper/_db-action.php",
-                        type: "POST",
-                        data: {
-                            action_type: actionType,
-                            tb_name: tableName,
-                            field_name: filedName,
-                            form_data: $('#user-form').serialize()
-                        }, beforeSend: function () {
-                            ClearValues();
-                            $('#content-form').addClass('hide');
+                            console.log(data);
                         },
-                        success: function (data) {
-                            alert(data);
-                            FetchData();
+                        complete: function () {
+                            _FETCH();
                         }
                     });
-                });
-                $('#btn-cancel').on('click', function () {
-                    ClearValues();
-                    $('#content-table').removeClass('hide');
-                    $('#content-form').addClass('hide');
                 });
             });
         </script>
-    </body>
+    </footer>
 </html>
